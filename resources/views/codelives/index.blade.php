@@ -10,6 +10,19 @@
             </button>
             <a class="navbar-brand" href="#">コード一覧 ( {{ $codelives->total() }} )</a>
         </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ $viewinfo->currLang }} <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        @foreach($viewinfo->bunrui_table as $itm)
+                        <li><a href="/codelive/chenglang/{{ $itm->lid }}">{{$itm->lname }}</a></li>
+                        @endforeach
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
     </div>
 </nav>
 @if (Session::has('flash_message'))
@@ -33,7 +46,8 @@
         @foreach($codelives as $itm)
         <tr>
             <td>{{ $codelives['title'] }}</td>
-            <td> <?php mb_strlen($codelives['body']) > 120 ? $subs = mb_substr($codelives['body'], 0, 120).'...' : $subs = $codelives['body']; echo $subs ?></td>
+            <td> <?php mb_strlen($codelives['body']) > 120 ? $subs = mb_substr($codelives['body'], 0, 120).'...' : $subs = $codelives['body'];
+echo $subs ?></td>
             <td>{{ $codelives['updated_at'] }}</td>
             <td>
                 <a class="btn btn-primary " href="/srcarc/{{ $codelives['id'] }}">
@@ -44,5 +58,4 @@
     </tbody>
 </table>
 <!--  pagenate render  -->
-{{ $codelives->render() }} 
-@endsection
+{{ $codelives->render() }} @endsection

@@ -36,12 +36,13 @@ class Lang extends Model {
     *           3:  prims.js 用
     *           4:  他の言語リスト(navのドロップダウンに格納される)
     ---------------------------------------------------------------------------*/
-    public function makeDispinfo($workid) {
+    public function makeDispinfo($workid, $bid) {
         $retval = new DispInfo();
         $retval->workID = $workid;
         $retval->currLang = $this['language'];
         $retval->currMark = $this['note'];
         $retval->lang_table = $this->getlangslist();
+        $retval->bunrui_table = $this->getbunruilist($bid);
         return $retval;
     }
     /*---------------------------------------------------------------------------
@@ -54,6 +55,29 @@ class Lang extends Model {
         $all = parent::all();
         foreach($all as $itm) {
             if ($this['id'] != $itm['id']) {
+                $tmp = new class {
+                    public $lname;
+                    public $lid;
+                };
+                $tmp->lid = $itm['id'];
+                //                              $tmp['lid']は使えないようです
+                $tmp->lname = $itm['language'];
+                $retval[] = $tmp;
+                //                              配列に入れる
+            }
+        }
+        return $retval;
+    }
+    /*---------------------------------------------------------------------------
+    *           分類リストの収集
+    *----------------------------------------------------------------------------
+    *       PHP7から使える無名クラスを使用
+    *       id と language をセットにしている
+    ---------------------------------------------------------------------------*/
+    private function getbunruilist($bid) {
+        $all = $this.bunruis()->all();
+        foreach($all as $itm) {
+            if ($bid != $itm['id']) {
                 $tmp = new class {
                     public $lname;
                     public $lid;

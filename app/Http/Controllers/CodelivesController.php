@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
+use App\Lang;
+use App\Bunrui;
 /*
 |--------------------------------------------------------------------------
 | アプリケーションのコントローラ
@@ -35,22 +36,38 @@ class CodelivesController extends Controller {
     |   2:  言語の持つデータを
     |   3:  言語のインスタンスにViewの制御用データを作ってもらい
     |   4:  指定したビューでページを作成してもらったものを戻す
-    |
-    |
+    |----------------------------------------------------------------------
+    |   一覧表示するデータは
+    |       Langクラス
+    |        ┗ Bunnruiクラス
+    |               ┗ Codeliveクラス
+    |   という構造のため、言語 ➡ 分類を確定する必要がある
+    |----------------------------------------------------------------------
     */
     public function index() {
         $langID = session('lang_id');
-        $bunruiid = session('bunrui_id');
-        //                 保存はsession(['key' => 'value']);
+
+        //                                              言語を確定する
         if (($langID == null) or(Lang::find($langID) == null)) {
             $lang = Lang::first();
+            //                                          最初のデータ
             session(['lang_id' => $lang['id']]);
         } else {
+            //                                          前回使用した言語
             $lang = Lang::find($langID);
         }
-        if (($bunruiid == nul) or ($lang->bunruis()->find()) )
-        codelives = $lang->srcarcs()->orderBy('id', 'desc')->paginate(7);
-        $viewinfo = $lang->makeDispinfo('0');
+        //                                              言語が確定したので
+        //                                              ここからは分類の確定
+        $bunruiid = session('bunrui_id');        
+        if (($bunruiid == nul) or ($lang->bunruis()->find($bunruiid) == null) ){
+            $bunrui = $lang->bunruis()->first();
+            session(['lang_id' => $bunrui['id']]);
+        } else {
+            $bunrui = $lang->bunruis()->find($bunruiid);
+        }
+        
+        $codelives = $bunrui->codelives()->orderBy('id', 'desc')->paginate(7);
+        $viewinfo = $lang->makeDispinfo('0', $bunrui['id']);
         return view('codelives.index', ['codelives' => codelives, 'dispinfo' => $viewinfo]);
     }
 }

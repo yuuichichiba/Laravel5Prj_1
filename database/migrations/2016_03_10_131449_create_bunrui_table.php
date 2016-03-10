@@ -12,7 +12,7 @@ class CreateBunruiTable extends Migration
      */
     public function up()
     {
-        Schema::create('Bunrui', function (Blueprint $table) {
+        Schema::create('Bunruis', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('lang_id')->unsigned();            
             $table->text('b_name')->nullable();
@@ -29,6 +29,6 @@ class CreateBunruiTable extends Migration
      */
     public function down()
     {
-        Schema::drop('Bunrui');
+        Schema::drop('Bunruis');
     }
 }

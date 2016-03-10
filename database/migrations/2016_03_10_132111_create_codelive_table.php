@@ -18,7 +18,7 @@ class CreateCodeliveTable extends Migration {
             $table->text('src')->nullable();
             $table->timestamps();
             // foreign　Key　
-            $table->foreign('bunrui_id')->references('id')->on('bunrui')->onDelete('cascade');            
+            $table->foreign('bunrui_id')->references('id')->on('bunruis')->onDelete('cascade');            
         });
     }
 
