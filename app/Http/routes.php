@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 /*
 |--------------------------------------------------------------------------
@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function() {
     return view('welcome');
 });
 
@@ -26,6 +26,15 @@ Route::get('/', function () {
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    Route::get('/codelive', 'CodelivesController@index');                  // 一覧    
+Route::group(['middleware' => ['web']], function() {
+    Route::get('/codelive/chenglang/{id}', 'CodelivesController@chenglang'); // 言語変更                     
+    Route::get('/codelive/chengbunrui/{id}', 'CodelivesController@chengbunrui'); // 分類変更    
+    Route::post('/codelive/changbid/{id}', 'CodelivesController@changbid'); // b_id変更
+    Route::post('/codelive/update/{id}', 'CodelivesController@update'); // 修正保存          
+    Route::get('/codelive/edit/{id}', 'CodelivesController@edit'); // 修正                  
+    Route::post('/codelive/store', 'CodelivesController@store'); // 新規保存          
+    Route::get('/codelive/create', 'CodelivesController@create'); // 新規              
+    Route::post('/codelive/delete/{id}', 'CodelivesController@delete'); // 削除          
+    Route::get('/codelive/{id}', 'CodelivesController@detail'); // 一件表示            
+    Route::get('/codelive', 'CodelivesController@index'); // 一覧    
 });

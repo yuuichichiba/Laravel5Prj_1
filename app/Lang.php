@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Classes\Pageinfo;
+use App\Bunrui;
 /* ----------------------------------------------------------------------------
 *               言語を扱うモデルクラス
 * -----------------------------------------------------------------------------
@@ -21,7 +22,8 @@ use App\Classes\Pageinfo;
 *                   ┗< 分類 >
 *                       ┗< サンプルコード >
 *           
-*           
+*           Lang インスタンスから分類データを取得するには
+*           <instance>->bunruis()->get()
 ---------------------------------------------------------------------------- */
 class Lang extends Model {
     public function bunruis() {
@@ -37,12 +39,24 @@ class Lang extends Model {
     *           4:  他の言語リスト(navのドロップダウンに格納される)
     ---------------------------------------------------------------------------*/
     public function makeDispinfo($workid, $bid) {
-        $retval = new DispInfo();
+        $retval = new Pageinfo();
         $retval->workID = $workid;
         $retval->currLang = $this['language'];
-        $retval->currMark = $this['note'];
-        $retval->lang_table = $this->getlangslist();
-        $retval->bunrui_table = $this->getbunruilist($bid);
+        $retval->currMark = $this['langmark'];
+        if ($workid == '0') {
+            $retval->lang_table = $this->getlangslist();
+        }
+        //                                                  現在の分類名を取得
+        $bun = Bunrui::findOrFail($bid);
+        $retval->currBunrui = $bun['b_name'];
+        //      必要なのは一覧表示と修正
+        if (($workid == '0') or($workid == '1')) {
+            if (is_null($bun)) {
+                $retval->bunrui_table = null;
+            } else {
+                $retval->bunrui_table = $this->getbunruilist($bid);
+            }
+        }
         return $retval;
     }
     /*---------------------------------------------------------------------------
@@ -75,22 +89,27 @@ class Lang extends Model {
     *       id と language をセットにしている
     ---------------------------------------------------------------------------*/
     private function getbunruilist($bid) {
-        $all = $this.bunruis()->all();
-        foreach($all as $itm) {
+        $ball = $this->bunruis()->get();
+        // $all = Bunrui::where('lang_id', $this['id']);
+        $retval = null;
+        foreach($ball as $itm) {
             if ($bid != $itm['id']) {
                 $tmp = new class {
-                    public $lname;
-                    public $lid;
+                    public $bname;
+                    public $bid;
                 };
-                $tmp->lid = $itm['id'];
+                $tmp->bid = $itm['id'];
                 //                              $tmp['lid']は使えないようです
-                $tmp->lname = $itm['language'];
+                $tmp->bname = $itm['b_name'];
                 $retval[] = $tmp;
                 //                              配列に入れる
             }
         }
+
         return $retval;
+
     }
+
     /*---------------------------------------------------------------------------
     *           HTML用にエンコードして戻す
     *----------------------------------------------------------------------------

@@ -38,7 +38,7 @@
                     @else                           <!-- でなければ、not active/ enabled -->
                     <li><a href="/codelive">一覧 <span class="sr-only">(current)</span></a></li>
                     @endif
-                    @if ( $viewinfo->workID == '3')  
+                    @if ( $viewinfo->workID == '2')
                     <li class="active" enabled = "false"><a>新規 <span class="sr-only">(current)</span></a></li>
                     @else                                  
                     <li><a href="/codelive/create">新規</a></li>
@@ -47,12 +47,14 @@
                     <li><a href="">About</a></li>
                     <li><a href="">Contact</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ $viewinfo->currLang }} <span class="caret"></span></a>
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-duplicate"></span>　{{ $viewinfo->currLang }} <span class="caret"></span></a>
+                         @if ( $viewinfo->workID == '0')
                         <ul class="dropdown-menu" role="menu">
                             @foreach($viewinfo->lang_table as $itm)
-                            <li><a href="/codelive/chenglang/{{ $itm->lid }}">{{$itm->lname }}</a></li>
+                            <li><a href="/codelive/chenglang/{{ $itm->lid }}"><span class="glyphicon glyphicon-option-vertical"></span>　{{$itm->lname }}</a></li>
                             @endforeach
                         </ul>
+                        @endif
                     </li>
                 </ul>
             </div>

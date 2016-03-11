@@ -1,28 +1,29 @@
 @extends('app') @section('content')
 <nav class="navbar navbar-default">
     <div class="container-fluid">
-        <div class="navbar-header">$itm
+        <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">コード一覧 ( {{ $codelives->total() }} )</a>
+            <a class="navbar-brand" href="#">サンプル一覧 ( {{ $codelives->total() }} )</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ $viewinfo->currLang }} <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-th-list"></span>　{{ $viewinfo->currBunrui }} <span class="caret"></span></a> 
+                    @if ($viewinfo->bunrui_table != null)
                     <ul class="dropdown-menu" role="menu">
                         @foreach($viewinfo->bunrui_table as $itm)
-                        <li><a href="/codelive/chenglang/{{ $itm->lid }}">{{$itm->lname }}</a></li>
+                        <li><a href="/codelive/chengbunrui/{{ $itm->bid}}"><span class="glyphicon glyphicon-tag"></span>　{{$itm->bname }}</a></li>
                         @endforeach
                     </ul>
+                    @endif
                 </li>
             </ul>
         </div>
-    </div>
     </div>
 </nav>
 @if (Session::has('flash_message'))
@@ -45,12 +46,12 @@
     <tbody>
         @foreach($codelives as $itm)
         <tr>
-            <td>{{ $codelives['title'] }}</td>
-            <td> <?php mb_strlen($codelives['body']) > 120 ? $subs = mb_substr($codelives['body'], 0, 120).'...' : $subs = $codelives['body'];
+            <td>{{ $itm['title'] }}</td>
+            <td> <?php mb_strlen($itm['body']) > 120 ? $subs = mb_substr($itm['body'], 0, 120).'...' : $subs = $itm['body'];
 echo $subs ?></td>
-            <td>{{ $codelives['updated_at'] }}</td>
+            <td>{{ $itm['updated_at'] }}</td>
             <td>
-                <a class="btn btn-primary " href="/srcarc/{{ $codelives['id'] }}">
+                <a class="btn btn-primary " href="/codelive/{{ $itm['id'] }}">
                     <span class="glyphicon glyphicon-folder-open"></span>　詳細</a>
             </td>
         </tr>
