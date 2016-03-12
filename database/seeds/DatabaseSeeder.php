@@ -42,6 +42,8 @@ class BunruiTableSeeder extends Seeder {
             foreach($langs as $item) {
                 $bun = new Bunrui(['b_name' => '一般', ]);
                 $item->bunruis()->save($bun);
+                $bun = new Bunrui(['b_name' => 'クラス', ]);
+                $item->bunruis()->save($bun);                
             }
         }
     }

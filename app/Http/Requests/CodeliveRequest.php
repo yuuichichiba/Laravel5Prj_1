@@ -22,7 +22,7 @@ class CodeliveRequest extends Request
      * @return array
      */
     public function rules() {
-        return ['title' => 'required|min:3|max:250', ];
+        return ['title' => 'required|min:1|max:250', ];
     }
     public function messages() {
         return ['title.required' => 'タイトルは3文字-250文字の範囲で入力してください',  ];

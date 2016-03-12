@@ -27,6 +27,13 @@ Route::get('/', function() {
 */
 
 Route::group(['middleware' => ['web']], function() {
+    Route::post('/codelive/admin/bumruidel/{id}', 'AdminController@delbunrui');    
+    Route::post('/codelive/admin/bunruiappend/{id}', 'AdminController@appendbunrui');
+    Route::post('/codelive/admin/apendlang', 'AdminController@apendlang');
+    Route::get('/codelive/admin/dellang/{id}', 'AdminController@dellang');
+    Route::get('/codelive/admin/editbunrui/{id}', 'AdminController@editbunrui');
+    Route::get('/codelive/admin', 'AdminController@index');
+
     Route::get('/codelive/chenglang/{id}', 'CodelivesController@chenglang'); // 言語変更                     
     Route::get('/codelive/chengbunrui/{id}', 'CodelivesController@chengbunrui'); // 分類変更    
     Route::post('/codelive/changbid/{id}', 'CodelivesController@changbid'); // b_id変更
@@ -36,5 +43,7 @@ Route::group(['middleware' => ['web']], function() {
     Route::get('/codelive/create', 'CodelivesController@create'); // 新規              
     Route::post('/codelive/delete/{id}', 'CodelivesController@delete'); // 削除          
     Route::get('/codelive/{id}', 'CodelivesController@detail'); // 一件表示            
-    Route::get('/codelive', 'CodelivesController@index'); // 一覧    
+    Route::get('/codelive', 'CodelivesController@index'); // 一覧 
+
+
 });

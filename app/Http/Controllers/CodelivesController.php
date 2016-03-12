@@ -206,5 +206,4 @@ class CodelivesController extends Controller {
         session(['lang_id' => $id]);
         return redirect('/codelive');
     }
-
 }
