@@ -36,16 +36,32 @@ class AdminController extends Controller {
         $newLang->bunruis()->save($bun);
         return redirect('/codelive/admin');
     }
-    public function appendbunrui(Request $req,int $id){
+    public function appendbunrui(Request $req, int $id) {
         $lang = Lang::findOrFail($id);
         $bunrui = new Bunrui();
         $bunrui['b_name'] = $req['b_name'];
         $lang->bunruis()->save($bunrui);
         return redirect('/codelive/admin/editbunrui/'.$id);
     }
-    public function delbunrui(Request $req, int $id){
+    public function delbunrui(Request $req, int $id) {
         $bunrui = Bunrui::findOrFail($id);
         $bunrui->delete();
         return redirect('/codelive/admin/editbunrui/'.$req['langid']);
+    }
+    public function bunruirename(Request $req, $bid) {
+        $bunid = $req['bid'];
+        $bun = Bunrui::findOrFail($bunid);
+        $bun['b_name'] = $req['newname'];
+        $bun->save();
+        return redirect('/codelive/admin/editbunrui/'.$bid);
+    }
+    function langupdate(Request $req) {
+        $lang = Lang::findOrFail($req['lid']);
+        $lang['language'] = $req['language'];
+        $lang['langmark'] = $req['langmark'];
+        $lang['prefix'] = $req['prefix'];
+        $lang['note'] = $req['note'];
+        $lang->update();
+        return redirect('/codelive/admin/');
     }
 }
