@@ -52,3 +52,8 @@ Route::group(['middleware' => ['web']], function() {
     Route::get('/codelive/{id}', 'CodelivesController@detail'); // 一件表示
     Route::get('/codelive', 'CodelivesController@index'); // 一覧
 });
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+
+    Route::get('/home', 'CodelivesController@index');
+});
