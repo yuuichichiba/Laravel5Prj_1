@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">サンプル一覧 ( {{ $codelives->total() }} )</a>
+            <p class="navbar-text">一覧 ( {{ $codelives->total() }} )</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
@@ -39,7 +39,7 @@
             <th width=200>タイトル</th>
             <th>説明</th>
 
-            <th>最終更新日時</th>
+            <th width=150>最終更新日時</th>
             <th></th>
         </tr>
     </thead>

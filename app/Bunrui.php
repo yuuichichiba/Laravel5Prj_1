@@ -24,4 +24,8 @@ class Bunrui extends Model {
     public function codelives() {
         return $this->hasmany('App\Codelive');
     }
+    public function parent()
+    {
+       return $this->belongsTo('app\Langs');
+    }
 }

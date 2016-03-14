@@ -6,7 +6,7 @@
     <title>サンプル蔵</title>
     <link href="{{asset('/assets/css/bootstrap.min.css')}}" rel="stylesheet">
     <style type="text/css">
-        body { padding-top: 70px; }
+        body { padding-top: 50px; padding-bottom: 50px;  }
         }
     </style>
 
