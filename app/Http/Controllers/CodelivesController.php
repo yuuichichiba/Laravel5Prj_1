@@ -172,6 +172,12 @@ class CodelivesController extends Controller {
     }
     public function changbid(Request $pr, $id) {
         $codelive = Codelive::findOrFail($id);
+        $newbunrui = Bunrui::find($pr['select'])->firstOrFail();
+        if (!is_null($newbunrui)){
+            $codelive['bunrui_id'] = $newbunrui['id'];
+            $codelive->save();
+            session(['bunrui_id' => $newbunrui['id']]);
+        }
         return redirect('/codelive');
     }
     /*---------------------------------------------------------------------------

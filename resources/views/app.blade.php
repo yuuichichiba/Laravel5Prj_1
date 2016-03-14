@@ -4,7 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>サンプル蔵</title>
-    <link href="{{asset('/assets/css/bootstrap.min.css')}}" rel="stylesheet"> @if ( $viewinfo->workID == '1')
+    <link href="{{asset('/assets/css/bootstrap.min.css')}}" rel="stylesheet">
+    <style type="text/css">
+        body { padding-top: 70px; }
+        }
+    </style>
+
+    @if ( $viewinfo->workID == '1')
     <!-- 一件表示のコードエリア    -->
     <link href="{{asset('/assets/css/prism.css')}}" rel="stylesheet">
     <style type="text/css">
@@ -19,7 +25,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -30,7 +36,6 @@
                 </button>
                 <a class="navbar-brand" href="#">サンプル蔵</a>
             </div>
-
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     @if ( $viewinfo->workID == '0')
@@ -47,15 +52,19 @@
                     <!-- ダミー　-->
                     <li><a href="">About</a></li>
                     <li><a href="">Contact</a></li>
+                    @if ( $viewinfo->workID == '0')
                     <li class="dropdown">
+                    @else
+                    <li class="dropdown disabled">
+                    @endif
                         <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-duplicate"></span>　{{ $viewinfo->currLang }} <span class="caret"></span></a>
-                         @if ( $viewinfo->workID == '0')
+                        @if ( $viewinfo->workID == '0')
                         <ul class="dropdown-menu" role="menu">
                             @foreach($viewinfo->lang_table as $itm)
                             <li><a href="/codelive/chenglang/{{ $itm->lid }}"><span class="glyphicon glyphicon-option-vertical"></span>　{{$itm->lname }}</a></li>
                             @endforeach
-                        </ul>
                         @endif
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -67,8 +76,12 @@
                 @yield('content')
             </div>
         </div>
-        <div class="row">
-            <!-- フッターは等分なしのワンカラム col-sm-12 -->
+        <nav class="navbar navbar-default navbar-fixed-bottom">
+            <p class="navbar-text navbar-right">©Copyright Office YUAi 2016-　　　</p>
+        </nav>
+
+<!--         
+        <div class="row">           
             <div class="col-sm-12">
                 <Hr Width="80%">
                 <footer>
@@ -77,7 +90,7 @@
 
             </div>
         </div>
-
+-->
     </div>
 </body>
 </htm/>
