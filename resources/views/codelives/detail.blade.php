@@ -48,7 +48,6 @@
                         <h3 class="panel-title" align="center">分類を変更すると現在の一覧からは見ることができなくなります</h3>
                     </div>
                     <div class="panel-body" align="center">
-
                         <form class="form-horizontal" method="post" action="/codelive/changbid/{{$codelive['id']}}">
                             <fieldset>
                                 <div class="form-group">
@@ -60,7 +59,8 @@
                                         <select class="form-control" name="select">
                                             @if ($viewinfo->bunrui_table != null) 
                                                 @foreach($viewinfo->bunrui_table as $itm)
-                                                <option>{{$itm->bname }}</option>
+                                                <option value="{{$itm->bid }}">{{$itm->bname }}</option>
+                             <!--                   <option>{{$itm->bname }}</option>  -->
                                                 @endforeach 
                                             @endif
                                         </select>
@@ -74,9 +74,6 @@
                                 </div>
                             </fieldset>
                         </form>
-
-
-
                     </div>
                 </div>
 

@@ -23,7 +23,7 @@ use App\Http\Requests\CodeliveRequest;
 */
 class CodelivesController extends Controller {
     public function __construct() {
-
+        $this->middleware('auth');
     }
     /*
     |----------------------------------------------------------------------
@@ -172,6 +172,12 @@ class CodelivesController extends Controller {
     }
     public function changbid(Request $pr, $id) {
         $codelive = Codelive::findOrFail($id);
+        $newbunrui = Bunrui::find($pr['select'])->firstOrFail();
+        if (!is_null($newbunrui)){
+            $codelive['bunrui_id'] = $newbunrui['id'];
+            $codelive->save();
+            session(['bunrui_id' => $newbunrui['id']]);
+        }
         return redirect('/codelive');
     }
     /*---------------------------------------------------------------------------
@@ -179,7 +185,7 @@ class CodelivesController extends Controller {
     *----------------------------------------------------------------------------
     *        Route::get('/codelive/chengbunrui/{id}', 'CodelivesController@chengbunrui'); 
     *----------------------------------------------------------------------------
-    *       一覧でで分類の変更を行った
+    *       一覧で分類の変更を行った
     *       session('bunrui_id')を変える
     ---------------------------------------------------------------------------
     */    

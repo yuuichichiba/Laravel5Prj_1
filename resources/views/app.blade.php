@@ -4,8 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <title>サンプル蔵</title>
-    <link href="{{asset('/assets/css/bootstrap.min.css')}}" rel="stylesheet"> 
-    @if ( $viewinfo->workID == '1')     <!-- 一件表示のコードエリア    -->
+    <link href="{{asset('/assets/css/bootstrap.min.css')}}" rel="stylesheet">
+    <style type="text/css">
+    body {
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+    }
+    </style>
+
+    @if ( $viewinfo->workID == '1')
+    <!-- 一件表示のコードエリア    -->
     <link href="{{asset('/assets/css/prism.css')}}" rel="stylesheet">
     <style type="text/css">
         div.codebox {
@@ -19,7 +28,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -30,33 +39,54 @@
                 </button>
                 <a class="navbar-brand" href="#">サンプル蔵</a>
             </div>
-
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    @if ( $viewinfo->workID == '0') <!-- 一覧表示ならactive/ not enabled-->
-                    <li class="active" enabled = "false"><a>一覧 <span class="sr-only">(current)</span></a></li>
-                    @else                           <!-- でなければ、not active/ enabled -->
+                    @if ( $viewinfo->workID == '0')
+                    <!-- 一覧表示ならactive/ not enabled-->
+                    <li class="active" enabled="false"><a>一覧 <span class="sr-only">(current)</span></a></li>
+                    @else
+                    <!-- でなければ、not active/ enabled -->
                     <li><a href="/codelive">一覧 <span class="sr-only">(current)</span></a></li>
-                    @endif
-                    @if ( $viewinfo->workID == '2')
-                    <li class="active" enabled = "false"><a>新規 <span class="sr-only">(current)</span></a></li>
-                    @else                                  
+                    @endif @if ( $viewinfo->workID == '2')
+                    <li class="active" enabled="false"><a>新規 <span class="sr-only">(current)</span></a></li>
+                    @else
                     <li><a href="/codelive/create">新規</a></li>
-                    @endif                    
+                    @endif
                     <!-- ダミー　-->
                     <li><a href="">About</a></li>
                     <li><a href="">Contact</a></li>
+                    @if ( $viewinfo->workID == '0')
                     <li class="dropdown">
-                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-duplicate"></span>　{{ $viewinfo->currLang }} <span class="caret"></span></a>
-                         @if ( $viewinfo->workID == '0')
-                        <ul class="dropdown-menu" role="menu">
-                            @foreach($viewinfo->lang_table as $itm)
-                            <li><a href="/codelive/chenglang/{{ $itm->lid }}"><span class="glyphicon glyphicon-option-vertical"></span>　{{$itm->lname }}</a></li>
-                            @endforeach
-                        </ul>
-                        @endif
-                    </li>
+                        @else
+                        <li class="dropdown disabled">
+                            @endif
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-duplicate"></span>　{{ $viewinfo->currLang }} <span class="caret"></span></a> @if ( $viewinfo->workID
+                            == '0')
+                            <ul class="dropdown-menu" role="menu">
+                                @foreach($viewinfo->lang_table as $itm)
+                                <li><a href="/codelive/chenglang/{{ $itm->lid }}"><span class="glyphicon glyphicon-option-vertical"></span>　{{$itm->lname }}</a></li>
+                                @endforeach @endif
+                            </ul>
+                        </li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Authentication Links -->
+                    @if (Auth::guest())
+                    <li><a href="{{ url('/login') }}">Login</a></li>
+                    <li><a href="{{ url('/register') }}">Register</a></li>
+                    @else
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                {{ Auth::user()->name }} <span class="caret"></span>
+                            </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                    @endif
+                </ul>
+
             </div>
         </div>
     </nav>
@@ -66,8 +96,12 @@
                 @yield('content')
             </div>
         </div>
-        <div class="row">
-            <!-- フッターは等分なしのワンカラム col-sm-12 -->
+        <nav class="navbar navbar-default navbar-fixed-bottom">
+            <p class="navbar-text navbar-right">©Copyright Office YUAi 2016-　　　</p>
+        </nav>
+
+        <!--         
+        <div class="row">           
             <div class="col-sm-12">
                 <Hr Width="80%">
                 <footer>
@@ -76,7 +110,7 @@
 
             </div>
         </div>
-
+-->
     </div>
 </body>
 </htm/>

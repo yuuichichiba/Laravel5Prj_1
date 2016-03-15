@@ -30,7 +30,7 @@ Route::group(['middleware' => ['web']], function() {
     // Route::resource('codelive', 'CodelivesController');
     // Route::resource('codelive/admin', 'AdminController');
     Route::post('/codelive/admin/langupdate', 'AdminController@langupdate');
-    Route::post('/codelive/admin/bunruirename/{id}', 'AdminController@bunruirename');  
+    Route::post('/codelive/admin/bunruirename/{id}', 'AdminController@bunruirename');
     Route::get('/codelive/admin/editbunrui/{id}', 'AdminController@editbunrui');
     Route::get('/codelive/admin/dellang/{id}', 'AdminController@dellang');
     Route::post('/codelive/admin/bunruiappend/{id}', 'AdminController@appendbunrui');
@@ -51,4 +51,11 @@ Route::group(['middleware' => ['web']], function() {
     Route::post('/codelive/delete/{id}', 'CodelivesController@delete'); // 削除
     Route::get('/codelive/{id}', 'CodelivesController@detail'); // 一件表示
     Route::get('/codelive', 'CodelivesController@index'); // 一覧
+});
+
+
+Route::group(['middleware' => 'web'], function() {
+    Route::auth();
+
+    Route::get('/', 'HomeController@index');
 });
