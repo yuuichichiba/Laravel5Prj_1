@@ -7,7 +7,7 @@
     <link href="{{asset('/assets/css/bootstrap.min.css')}}" rel="stylesheet">
     <style type="text/css">
     body {
-            padding-top: 50px;
+            padding-top: 60px;
             padding-bottom: 50px;
         }
     }
@@ -47,11 +47,14 @@
                     @else
                     <!-- でなければ、not active/ enabled -->
                     <li><a href="/codelive">一覧 <span class="sr-only">(current)</span></a></li>
-                    @endif @if ( $viewinfo->workID == '2')
+                    @endif 
+                @if (Auth::user()->name == '管理者' )
+                    @if ( $viewinfo->workID == '2')                    
                     <li class="active" enabled="false"><a>新規 <span class="sr-only">(current)</span></a></li>
                     @else
                     <li><a href="/codelive/create">新規</a></li>
                     @endif
+               @endif
                     <!-- ダミー　-->
                     <li><a href="">About</a></li>
                     <li><a href="">Contact</a></li>
@@ -73,11 +76,11 @@
                     <!-- Authentication Links -->
                     @if (Auth::guest())
                     <li><a href="{{ url('/login') }}">Login</a></li>
-                    <li><a href="{{ url('/register') }}">Register</a></li>
+ <!--                   <li><a href="{{ url('/register') }}">Register</a></li> -->
                     @else
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ Auth::user()->name }} <span class="caret"></span>
+                                {{ Auth::user()->email }} <span class="caret"></span>
                             </a>
 
                         <ul class="dropdown-menu" role="menu">

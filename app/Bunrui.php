@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 |           言語モデルクラス
 |--------------------------------------------------------------------------
 |       このクラスは親にLangクラスを持ち子にCodeliveクラスの
-|       ７コレクションを持ちます
+|       コレクションを持ちます
 |
 */
 class Bunrui extends Model {

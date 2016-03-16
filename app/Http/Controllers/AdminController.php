@@ -9,6 +9,10 @@ use App\Lang;
 use App\Bunrui;
 // use App\Codelive;
 class AdminController extends Controller {
+    public function __construct() {
+        $this->middleware('auth:webadmin');
+    }    
+    
     public function index() {
         $langs = Lang::all();
         return view('admins.index', ['langs' => $langs]);

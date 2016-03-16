@@ -3,6 +3,7 @@
 use App\Lang;
 use App\Bunrui;
 use App\Codelive;
+use App\Admin;
 use Carbon\Carbon;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
@@ -18,10 +19,10 @@ class DatabaseSeeder extends Seeder {
     public function run() {
         Model::unguard();
 
-        $this->call('LangsTableSeeder');
-        $this->call('BunruiTableSeeder');
-        $this->call('CodelivesTableSeeder');
-
+        // $this->call('LangsTableSeeder');
+        // $this->call('BunruiTableSeeder');
+        // $this->call('CodelivesTableSeeder');
+        // $this->call('AdminTableSeeder');
         Model::reguard();
     }
 }
@@ -61,5 +62,16 @@ class CodelivesTableSeeder extends Seeder {
             $codelive = new Codelive(['title' => $faker->sentence(), 'body' => $faker->paragraph(), 'src' => '', ]);
             $bunrui->codelives()->save($codelive);
         }
+    }
+}
+
+class AdminTableSeeder extends Seeder {
+    public function run() {
+        DB::table('admins')->delete();
+        Admin::create([
+            'name' => '管理者', 
+            'email' => 'ychiba@officeyuai.net',
+            'password' => bcrypt('officeyuai'),
+            ]);
     }
 }

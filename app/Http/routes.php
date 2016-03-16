@@ -53,8 +53,11 @@ Route::group(['middleware' => ['web']], function() {
     Route::get('/codelive', 'CodelivesController@index'); // 一覧
 });
 
-
 Route::group(['middleware' => 'web'], function() {
+    Route::get('/codelive/admin/login', 'AdminAuthController@showLoginForm');
+    Route::post('/codelive/admin/login', 'AdminAuthController@login');
+    // Route::get('/admin/index', 'AdminController@index');
+    Route::get('/admin/logout', 'AdminAuthController@logout');
     Route::auth();
 
     Route::get('/', 'HomeController@index');
