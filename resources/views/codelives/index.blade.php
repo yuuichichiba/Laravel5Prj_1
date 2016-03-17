@@ -64,7 +64,7 @@
         <tr>
             <td>{{ $itm['title'] }}</td>
             <td> <?php mb_strlen($itm['body']) > 120 ? $subs = mb_substr($itm['body'], 0, 120).'...' : $subs = $itm['body'];
-echo $subs ?></td>
+                echo $subs ?></td>
             <td>{{ $itm['updated_at'] }}</td>
             <td>
                 <a class="btn btn-primary " href="/codelive/{{ $itm['id'] }}">
@@ -75,4 +75,9 @@ echo $subs ?></td>
     </tbody>
 </table>
 <!--  pagenate render  -->
-{{ $codelives->render() }} @endsection
+@if ($viewinfo->keyword == null)
+    {{ $codelives->render() }} 
+@else 
+    {{ $codelives->appends(['keyword'=>$viewinfo->keyword])->render() }}
+@endif    
+@endsection
