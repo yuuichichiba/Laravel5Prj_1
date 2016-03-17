@@ -38,11 +38,12 @@ class Lang extends Model {
     *           3:  prims.js 用
     *           4:  他の言語リスト(navのドロップダウンに格納される)
     ---------------------------------------------------------------------------*/
-    public function makeDispinfo($workid, $bid) {
+    public function makeDispinfo($workid, $bid, $kw = null) {
         $retval = new Pageinfo();
         $retval->workID = $workid;
         $retval->currLang = $this['language'];
         $retval->currMark = $this['langmark'];
+        $retval->keyword = $kw;
         if ($workid == '0') {
             $retval->lang_table = $this->getlangslist();
         }

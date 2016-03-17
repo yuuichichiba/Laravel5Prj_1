@@ -10,6 +10,9 @@
 <body>
     <div class="container">
         <div class="jumbotron">
+            @if (Auth::guard('webadmin'))
+            <a class="btn btn-info" href="{{ url('/admin/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a>
+            @endif
             <h1><span/>CodeLive Administrator</h1>
             <p><span/><span class="glyphicon glyphicon-warning-sign"></span> データを削除するとその配下にあるデータが削除されます</p>
         </div>

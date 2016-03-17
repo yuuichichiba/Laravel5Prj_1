@@ -10,6 +10,22 @@
             </button>
             <p class="navbar-text">一覧 ( {{ $codelives->total() }} )</a>
         </div>
+        <!-- サーチ -->
+        <form class="navbar-form navbar-left" method="get" action="/codelive" role="search">
+            <div class="form-group">
+            @if ($viewinfo->keyword == null)
+            <input type="text" class="form-control" name = "keyword" placeholder="Search">
+            @else 
+            <input type="text" class="form-control" name = "keyword" value="{{$viewinfo->keyword}}">
+            @endif
+            </div>
+            @if ($viewinfo->keyword == null)
+            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+            @else 
+            <a  class="btn btn-default" href = "/codelive"><span class="glyphicon glyphicon-refresh"></a>
+            @endif
+        </form> 
+        <!-- 言語選択 -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">

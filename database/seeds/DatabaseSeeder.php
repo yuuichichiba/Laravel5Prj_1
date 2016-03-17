@@ -70,8 +70,8 @@ class AdminTableSeeder extends Seeder {
         DB::table('admins')->delete();
         Admin::create([
             'name' => '管理者', 
-            'email' => 'ychiba@officeyuai.net',
-            'password' => bcrypt('officeyuai'),
+            'email' => '???@????.com',
+            'password' => bcrypt('????????'),
             ]);
     }
 }

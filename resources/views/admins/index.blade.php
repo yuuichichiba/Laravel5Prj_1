@@ -27,7 +27,8 @@
                             <span class="glyphicon glyphicon-cog"></span>　編　集</a>
                     </td>
                     <td>
-                        <a class="btn btn-danger " href="/codelive/admin/dellang/{{ $item['id'] }}">
+                        <a class="btn btn-danger " data-toggle="modal" data-target="#modal_confirmdelete" 
+                        data-langid="{{ $item['id'] }}">
                             <span class="glyphicon glyphicon-trash"></span>　削　除</a>
                     </td>
                     <td>
@@ -44,7 +45,7 @@
     </div>
 </div>
 
-<!-- 1.モーダルの配置 -->
+<!-- 新規追加モーダル -->
 <div class="modal fade" id="conferm_apend" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -95,9 +96,33 @@
     </div>
 </div>
 
+<!-- データ削除確認モーダル -->
+<div class="modal fade" id="modal_confirmdelete" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myLargeModalLabel">削除の実行</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal " method="post" action="/codelive/admin/dellang">
+                    <div class="form-group" align="center">
+                        <div class="modal-hidden">
+                            <input type="hidden" name="lid" id="lid">
+                        </div>                    
+                        <a class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove "></span> キャンセル</a>
+                        <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-flash "></span> 実　　行</button>
+                        {{ csrf_field() }}
 
+                    </div>
 
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- データ編集モーダル -->
 <div class="modal fade" id="modal_editlangname" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -165,4 +190,11 @@
         modal.find('.modal-langname input').val(lang_name)
         modal.find('.modal-langmark input').val(lang_mark) 
         }) 
+$('#modal_confirmdelete').on('show.bs.modal', function (event) { 
+        var button = $(event.relatedTarget) 
+        var lang_id =  button.data('langid')
+
+        var modal = $(this) 
+        modal.find('.modal-hidden input').val(lang_id)
+        })         
 @endsection

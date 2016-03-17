@@ -23,8 +23,8 @@ class AdminController extends Controller {
         $bunruis = $lang->bunruis()->get();
         return view('admins.bunruiedit', ['lang' => $lang], ['bunruis' => $bunruis]);
     }
-    public function dellang(int $id) {
-        $lang = Lang::findOrFail($id);
+    public function dellang(Request $req) {
+        $lang = Lang::findOrFail($req['lid']);
         $lang->delete();
         return redirect('/codelive/admin');
     }

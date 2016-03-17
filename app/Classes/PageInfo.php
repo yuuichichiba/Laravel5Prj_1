@@ -20,6 +20,8 @@ class Pageinfo {
     private $currBunrui;
     //                                              prims.js用言語マーク
     private $currMark;
+    //                                              キーワード
+    private $keyword;
     //                                              ドロップダウンに格納する他言語
     private $lang_table;
     //                                              ドロップダウンに格納する他分類

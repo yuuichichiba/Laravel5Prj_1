@@ -66,10 +66,19 @@ class CodelivesController extends Controller {
         } else {
             $bunrui = $lang->bunruis()->find($bunruiid);
         }
-        //                                              表示用のデータを用意
-        $codelives = $bunrui->codelives()->orderBy('id', 'desc')->paginate(7);
-        //                                              画面制御用データ用意
-        $viewinfo = $lang->makeDispinfo('0', $bunrui['id']);
+        $kw = \Request::get('keyword');
+        if ($kw != null) {
+            // $data = $bunrui->codelives();
+            // $codelives = $data->where('title', 'like', '%'.$kw.'%')->orWhere('body', 'like', '%'.$kw.'%')->orderBy('id', 'desc')->paginate(7);
+            $qry = Codelive::query();
+            $qry->where('bunrui_id','=', $bunrui['id']);
+            $qry->where('title', 'like', '%'.$kw.'%')->orWhere('body', 'like', '%'.$kw.'%')->where('bunrui_id','=', $bunrui['id']);
+            
+            $codelives = $qry->orderBy('id', 'desc')->paginate(7);
+        } else {
+            $codelives = $bunrui->codelives()->orderBy('id', 'desc')->paginate(7);
+        }
+        $viewinfo = $lang->makeDispinfo('0', $bunrui['id'], $kw);
         return view('codelives.index', ['codelives' => $codelives, 'viewinfo' => $viewinfo]);
     }
     /*---------------------------------------------------------------------------
@@ -173,7 +182,7 @@ class CodelivesController extends Controller {
     public function changbid(Request $pr, $id) {
         $codelive = Codelive::findOrFail($id);
         $newbunrui = Bunrui::find($pr['select'])->firstOrFail();
-        if (!is_null($newbunrui)){
+        if (!is_null($newbunrui)) {
             $codelive['bunrui_id'] = $newbunrui['id'];
             $codelive->save();
             session(['bunrui_id' => $newbunrui['id']]);
@@ -188,7 +197,7 @@ class CodelivesController extends Controller {
     *       一覧で分類の変更を行った
     *       session('bunrui_id')を変える
     ---------------------------------------------------------------------------
-    */    
+    */
     public function chengbunrui($id) {
         $lang = Lang::find(session('lang_id'));
         if ($id != session('bunrui_id')) {
@@ -207,8 +216,8 @@ class CodelivesController extends Controller {
     *       メインMavで言語の変更を行った
     *       session('bunrui_id')を変える
     ---------------------------------------------------------------------------
-    */        
-    public function chenglang(int $id){
+    */
+    public function chenglang(int $id) {
         session(['lang_id' => $id]);
         return redirect('/codelive');
     }

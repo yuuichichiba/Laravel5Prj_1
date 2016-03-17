@@ -29,10 +29,15 @@ Route::get('/', function() {
 Route::group(['middleware' => ['web']], function() {
     // Route::resource('codelive', 'CodelivesController');
     // Route::resource('codelive/admin', 'AdminController');
+    Route::get('/codelive/admin/login', 'AdminAuthController@showLoginForm');
+    Route::post('/codelive/admin/login', 'AdminAuthController@login');
+    // Route::get('/admin/index', 'AdminController@index');
+    Route::get('/admin/logout', 'AdminAuthController@logout');
+
     Route::post('/codelive/admin/langupdate', 'AdminController@langupdate');
     Route::post('/codelive/admin/bunruirename/{id}', 'AdminController@bunruirename');
     Route::get('/codelive/admin/editbunrui/{id}', 'AdminController@editbunrui');
-    Route::get('/codelive/admin/dellang/{id}', 'AdminController@dellang');
+    Route::post('/codelive/admin/dellang', 'AdminController@dellang');
     Route::post('/codelive/admin/bunruiappend/{id}', 'AdminController@appendbunrui');
     Route::post('/codelive/admin/bumruidel/{id}', 'AdminController@delbunrui');
     Route::post('/codelive/admin/apendlang', 'AdminController@apendlang');
@@ -54,10 +59,6 @@ Route::group(['middleware' => ['web']], function() {
 });
 
 Route::group(['middleware' => 'web'], function() {
-    Route::get('/codelive/admin/login', 'AdminAuthController@showLoginForm');
-    Route::post('/codelive/admin/login', 'AdminAuthController@login');
-    // Route::get('/admin/index', 'AdminController@index');
-    Route::get('/admin/logout', 'AdminAuthController@logout');
     Route::auth();
 
     Route::get('/', 'HomeController@index');
