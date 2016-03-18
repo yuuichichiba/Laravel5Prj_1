@@ -46,7 +46,7 @@ class CodelivesController extends Controller {
     |----------------------------------------------------------------------
     */
     public function index() {
-        $langID = session('lang_id');
+        $langID = session('lang_id'); 
         //                                              言語を確定する
         if (($langID == null) or(Lang::find($langID) == null)) {
             $lang = Lang::first();
@@ -66,12 +66,11 @@ class CodelivesController extends Controller {
         } else {
             $bunrui = $lang->bunruis()->find($bunruiid);
         }
+        //                                              キーワード検索用        
         $kw = \Request::get('keyword');
         if ($kw != null) {
-            // $data = $bunrui->codelives();
-            // $codelives = $data->where('title', 'like', '%'.$kw.'%')->orWhere('body', 'like', '%'.$kw.'%')->orderBy('id', 'desc')->paginate(7);
             $qry = Codelive::query();
-            $qry->where('bunrui_id','=', $bunrui['id']);
+            // $qry->where('bunrui_id','=', $bunrui['id']);
             $qry->where('title', 'like', '%'.$kw.'%')->orWhere('body', 'like', '%'.$kw.'%')->where('bunrui_id','=', $bunrui['id']);
             
             $codelives = $qry->orderBy('id', 'desc')->paginate(7);
