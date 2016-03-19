@@ -59,7 +59,8 @@ Route::group(['middleware' => ['web']], function() {
 });
 
 Route::group(['middleware' => 'web'], function() {
-    Route::auth();
-
-    Route::get('/', 'HomeController@index');
+    Route::auth();          //  認証に必要なLogin/Registerなどのルートが定義される
+                            //  ミドルウエアとしてwebを指定しているのでログイン前は
+                            //  web,guestとして認証外で実行される
+    // Route::get('/', 'HomeController@index');
 });

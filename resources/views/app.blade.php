@@ -13,7 +13,7 @@
     }
     </style>
 
-    @if ( $viewinfo->workID == '1')
+@if ( $viewinfo->workID == '1')
     <!-- 一件表示のコードエリア    -->
     <link href="{{asset('/assets/css/prism.css')}}" rel="stylesheet">
     <style type="text/css">
@@ -23,7 +23,7 @@
             /* スクロールバーを自動表示(※) */
         }
     </style>
-    @endif
+@endif
 
 </head>
 
@@ -41,13 +41,13 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    @if ( $viewinfo->workID == '0')
+                @if ( $viewinfo->workID == '0')
                     <!-- 一覧表示ならactive/ not enabled-->
                     <li class="active" enabled="false"><a>一覧 <span class="sr-only">(current)</span></a></li>
-                    @else
+                @else
                     <!-- でなければ、not active/ enabled -->
                     <li><a href="/codelive">一覧 <span class="sr-only">(current)</span></a></li>
-                    @endif 
+                @endif 
                 @if (Auth::user()->name == '管理者' )
                     @if ( $viewinfo->workID == '2')                    
                     <li class="active" enabled="false"><a>新規 <span class="sr-only">(current)</span></a></li>
@@ -58,36 +58,36 @@
                     <!-- ダミー　-->
                     <li><a href="">About</a></li>
                     <li><a href="">Contact</a></li>
-                    @if ( $viewinfo->workID == '0')
+                @if ( $viewinfo->workID == '0')
                     <li class="dropdown">
-                        @else
-                        <li class="dropdown disabled">
-                            @endif
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-duplicate"></span>　{{ $viewinfo->currLang }} <span class="caret"></span></a> @if ( $viewinfo->workID
-                            == '0')
-                            <ul class="dropdown-menu" role="menu">
-                                @foreach($viewinfo->lang_table as $itm)
-                                <li><a href="/codelive/chenglang/{{ $itm->lid }}"><span class="glyphicon glyphicon-option-vertical"></span>　{{$itm->lname }}</a></li>
-                                @endforeach @endif
-                            </ul>
-                        </li>
+                @else
+                    <li class="dropdown disabled">
+                @endif
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-duplicate"></span>　{{ $viewinfo->currLang }} <span class="caret"></span></a> 
+                    @if ( $viewinfo->workID
+                        == '0')
+                        <ul class="dropdown-menu" role="menu">
+                        @foreach($viewinfo->lang_table as $itm)
+                            <li><a href="/codelive/chenglang/{{ $itm->lid }}"><span class="glyphicon glyphicon-option-vertical"></span>　{{$itm->lname }}</a></li>
+                        @endforeach 
+                    @endif
+                        </ul>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
-                    @if (Auth::guest())
+                @if (Auth::guest())
                     <li><a href="{{ url('/login') }}">Login</a></li>
- <!--                   <li><a href="{{ url('/register') }}">Register</a></li> -->
-                    @else
+                @else
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->email }} <span class="caret"></span>
                             </a>
-
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                         </ul>
                     </li>
-                    @endif
+                @endif
                 </ul>
 
             </div>
@@ -102,18 +102,6 @@
         <nav class="navbar navbar-default navbar-fixed-bottom">
             <p class="navbar-text navbar-right">©Copyright Office YUAi 2016-　　　</p>
         </nav>
-
-        <!--         
-        <div class="row">           
-            <div class="col-sm-12">
-                <Hr Width="80%">
-                <footer>
-                    <p align="center">© Copyright Office YUAi 2016-</p>
-                </footer>
-
-            </div>
-        </div>
--->
     </div>
 </body>
 </htm/>

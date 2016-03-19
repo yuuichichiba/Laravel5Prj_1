@@ -23,7 +23,7 @@ use App\Http\Requests\CodeliveRequest;
 */
 class CodelivesController extends Controller {
     public function __construct() {
-        $this->middleware('auth');
+        $this->middleware('auth');          // ここの認証は auth:web(users)
     }
     /*
     |----------------------------------------------------------------------
@@ -70,7 +70,6 @@ class CodelivesController extends Controller {
         $kw = \Request::get('keyword');
         if ($kw != null) {
             $qry = Codelive::query();
-            // $qry->where('bunrui_id','=', $bunrui['id']);
             $qry->where('title', 'like', '%'.$kw.'%')->orWhere('body', 'like', '%'.$kw.'%')->where('bunrui_id','=', $bunrui['id']);
             
             $codelives = $qry->orderBy('id', 'desc')->paginate(7);
@@ -109,7 +108,8 @@ class CodelivesController extends Controller {
     */
     public function delete($id) {
         $data = Codelive::findOrFail($id);
-        $data->delete();\Session::flash('flash_message', '1件のサンプルが削除されました');
+        $data->delete();
+        \Session::flash('flash_message', '1件のサンプルが削除されました');
         return redirect('/codelive');
     }
     /*---------------------------------------------------------------------------
@@ -175,12 +175,21 @@ class CodelivesController extends Controller {
         $codelive['title'] = $pr['title'];
         $codelive['body'] = $pr['body'];
         $codelive['src'] = $pr['src'];
-        $codelive->save();\Session::flash('flash_message', '１件のサンプルが更新されました');
+        $codelive->save();
+        \Session::flash('flash_message', '１件のサンプルが更新されました');
         return redirect('/codelive');
     }
-    public function changbid(Request $pr, $id) {
+    /*---------------------------------------------------------------------------
+    *           分類ID変更
+    *----------------------------------------------------------------------------
+    *        Route::post('/codelive/changbid/{id}', 'CodelivesController@changbid'); // b_id変更
+    *----------------------------------------------------------------------------
+    *       データの分類を変更する
+    ---------------------------------------------------------------------------
+    */
+    public function changbid(Request $pr, int  $id) {
         $codelive = Codelive::findOrFail($id);
-        $newbunrui = Bunrui::find($pr['select'])->firstOrFail();
+        $newbunrui = Bunrui::findOrFail($pr['selectbun']);
         if (!is_null($newbunrui)) {
             $codelive['bunrui_id'] = $newbunrui['id'];
             $codelive->save();
