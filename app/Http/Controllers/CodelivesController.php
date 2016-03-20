@@ -8,6 +8,7 @@ use App\Lang;
 use App\Bunrui;
 use App\Codelive;
 use App\Http\Requests\CodeliveRequest;
+use DB;
 /*
 |--------------------------------------------------------------------------
 | アプリケーションのコントローラ
@@ -23,7 +24,7 @@ use App\Http\Requests\CodeliveRequest;
 */
 class CodelivesController extends Controller {
     public function __construct() {
-        $this->middleware('auth');          // ここの認証は auth:web(users)
+        $this->middleware('auth'); // ここの認証は auth:web(users)
     }
     /*
     |----------------------------------------------------------------------
@@ -46,7 +47,7 @@ class CodelivesController extends Controller {
     |----------------------------------------------------------------------
     */
     public function index() {
-        $langID = session('lang_id'); 
+        $langID = session('lang_id');
         //                                              言語を確定する
         if (($langID == null) or(Lang::find($langID) == null)) {
             $lang = Lang::first();
@@ -70,8 +71,10 @@ class CodelivesController extends Controller {
         $kw = \Request::get('keyword');
         if ($kw != null) {
             $qry = Codelive::query();
-            $qry->where('title', 'like', '%'.$kw.'%')->orWhere('body', 'like', '%'.$kw.'%')->where('bunrui_id','=', $bunrui['id']);
-            
+            $qry->where('bunrui_id', $bunrui['id'])->where(function($qry) use($kw) {
+                $qry->where('title', 'like', '%'.$kw.'%')->orWhere('body', 'like', '%'.$kw.'%');
+            });
+            // $sql = $qry->toSql();
             $codelives = $qry->orderBy('id', 'desc')->paginate(7);
         } else {
             $codelives = $bunrui->codelives()->orderBy('id', 'desc')->paginate(7);
@@ -108,8 +111,7 @@ class CodelivesController extends Controller {
     */
     public function delete($id) {
         $data = Codelive::findOrFail($id);
-        $data->delete();
-        \Session::flash('flash_message', '1件のサンプルが削除されました');
+        $data->delete();\Session::flash('flash_message', '1件のサンプルが削除されました');
         return redirect('/codelive');
     }
     /*---------------------------------------------------------------------------
@@ -175,8 +177,7 @@ class CodelivesController extends Controller {
         $codelive['title'] = $pr['title'];
         $codelive['body'] = $pr['body'];
         $codelive['src'] = $pr['src'];
-        $codelive->save();
-        \Session::flash('flash_message', '１件のサンプルが更新されました');
+        $codelive->save();\Session::flash('flash_message', '１件のサンプルが更新されました');
         return redirect('/codelive');
     }
     /*---------------------------------------------------------------------------
@@ -187,7 +188,7 @@ class CodelivesController extends Controller {
     *       データの分類を変更する
     ---------------------------------------------------------------------------
     */
-    public function changbid(Request $pr, int  $id) {
+    public function changbid(Request $pr, int $id) {
         $codelive = Codelive::findOrFail($id);
         $newbunrui = Bunrui::findOrFail($pr['selectbun']);
         if (!is_null($newbunrui)) {
