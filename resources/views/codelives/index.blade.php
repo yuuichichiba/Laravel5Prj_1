@@ -1,4 +1,5 @@
-@extends('app') @section('content')
+@extends('app') 
+@section('content')
 <nav class="navbar navbar-default navbar-static-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -13,35 +14,36 @@
         <!-- サーチ -->
         <form class="navbar-form navbar-left" method="get" action="/codelive" role="search">
             <div class="form-group">
-            @if ($viewinfo->keyword == null)
+        @if ($viewinfo->keyword == null)
             <input type="text" class="form-control" name = "keyword" placeholder="Search">
-            @else 
-            <input type="text" class="form-control" name = "keyword" value="{{$viewinfo->keyword}}">
-            @endif
+        @else 
+            <input type="text" readonly = "true" class="form-control" name = "keyword" value="{{$viewinfo->keyword}}">
+        @endif
             </div>
-            @if ($viewinfo->keyword == null)
+        @if ($viewinfo->keyword == null)
             <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-            @else 
+        @else 
             <a  class="btn btn-default" href = "/codelive"><span class="glyphicon glyphicon-refresh"></a>
-            @endif
+        @endif
         </form> 
         <!-- 言語選択 -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-th-list"></span>　{{ $viewinfo->currBunrui }} <span class="caret"></span></a> 
-                    @if ($viewinfo->bunrui_table != null)
+                @if ($viewinfo->bunrui_table != null)
                     <ul class="dropdown-menu" role="menu">
-                        @foreach($viewinfo->bunrui_table as $itm)
+                    @foreach($viewinfo->bunrui_table as $itm)
                         <li><a href="/codelive/chengbunrui/{{ $itm->bid}}"><span class="glyphicon glyphicon-tag"></span>　{{$itm->bname }}</a></li>
-                        @endforeach
+                    @endforeach
                     </ul>
-                    @endif
+                @endif
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+<!-- セッションメッセージ　表示領域 -->
 @if (Session::has('flash_message'))
 <div class="alert alert-success">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -60,7 +62,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($codelives as $itm)
+    @foreach($codelives as $itm)
         <tr>
             <td>{{ $itm['title'] }}</td>
             <td> <?php mb_strlen($itm['body']) > 120 ? $subs = mb_substr($itm['body'], 0, 120).'...' : $subs = $itm['body'];
@@ -71,7 +73,7 @@
                     <span class="glyphicon glyphicon-folder-open"></span>　詳細</a>
             </td>
         </tr>
-        @endforeach
+    @endforeach
     </tbody>
 </table>
 <!--  pagenate render  -->

@@ -8,6 +8,7 @@ use App\Lang;
 use App\Bunrui;
 use App\Codelive;
 use App\Http\Requests\CodeliveRequest;
+use DB;
 /*
 |--------------------------------------------------------------------------
 | アプリケーションのコントローラ
@@ -23,7 +24,7 @@ use App\Http\Requests\CodeliveRequest;
 */
 class CodelivesController extends Controller {
     public function __construct() {
-        $this->middleware('auth');
+        $this->middleware('auth'); // ここの認証は auth:web(users)
     }
     /*
     |----------------------------------------------------------------------
@@ -46,7 +47,7 @@ class CodelivesController extends Controller {
     |----------------------------------------------------------------------
     */
     public function index() {
-        $langID = session('lang_id'); 
+        $langID = session('lang_id');
         //                                              言語を確定する
         if (($langID == null) or(Lang::find($langID) == null)) {
             $lang = Lang::first();
@@ -70,9 +71,10 @@ class CodelivesController extends Controller {
         $kw = \Request::get('keyword');
         if ($kw != null) {
             $qry = Codelive::query();
-            // $qry->where('bunrui_id','=', $bunrui['id']);
-            $qry->where('title', 'like', '%'.$kw.'%')->orWhere('body', 'like', '%'.$kw.'%')->where('bunrui_id','=', $bunrui['id']);
-            
+            $qry->where('bunrui_id', $bunrui['id'])->where(function($qry) use($kw) {
+                $qry->where('title', 'like', '%'.$kw.'%')->orWhere('body', 'like', '%'.$kw.'%');
+            });
+            // $sql = $qry->toSql();
             $codelives = $qry->orderBy('id', 'desc')->paginate(7);
         } else {
             $codelives = $bunrui->codelives()->orderBy('id', 'desc')->paginate(7);
@@ -178,9 +180,17 @@ class CodelivesController extends Controller {
         $codelive->save();\Session::flash('flash_message', '１件のサンプルが更新されました');
         return redirect('/codelive');
     }
-    public function changbid(Request $pr, $id) {
+    /*---------------------------------------------------------------------------
+    *           分類ID変更
+    *----------------------------------------------------------------------------
+    *        Route::post('/codelive/changbid/{id}', 'CodelivesController@changbid'); // b_id変更
+    *----------------------------------------------------------------------------
+    *       データの分類を変更する
+    ---------------------------------------------------------------------------
+    */
+    public function changbid(Request $pr, int $id) {
         $codelive = Codelive::findOrFail($id);
-        $newbunrui = Bunrui::find($pr['select'])->firstOrFail();
+        $newbunrui = Bunrui::findOrFail($pr['selectbun']);
         if (!is_null($newbunrui)) {
             $codelive['bunrui_id'] = $newbunrui['id'];
             $codelive->save();

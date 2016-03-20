@@ -4,14 +4,14 @@
     <form class="form-horizontal">
         <fieldset>
             <legend>データ詳細</legend>
-            @if (Auth::user()->name == '管理者' )
+        @if (Auth::user()->name == '管理者' )
             <div class="alert alert-infos" align="center">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <a class="btn btn-info" href="/codelive/edit/{{$codelive['id']}}"><span class="glyphicon glyphicon-pencil"></span> データ編集</a>
                 <a class="btn btn-success" data-toggle="modal" data-target="#conferm_change"><span class="glyphicon glyphicon-random"></span> 分類変更</a>
                 <a class="btn btn-danger" data-toggle="modal" data-target="#conferm_delete"><span class="glyphicon glyphicon-trash"></span> データ削除</a>
             </div>
-            @endif
+        @endif
             <div class="form-group">
                 <label class="col-lg-2 control-label" for="textArea">分類</label>
                 <div class="col-lg-10">
@@ -58,13 +58,12 @@
                                     </ul>
                                     <label for="select" class="col-lg-2 control-label">新分類</label>
                                     <div class="col-lg-10">
-                                        <select class="form-control" name="select">
-                                            @if ($viewinfo->bunrui_table != null) 
-                                                @foreach($viewinfo->bunrui_table as $itm)
+                                        <select class="form-control" name="selectbun">
+                                        @if ($viewinfo->bunrui_table != null) 
+                                            @foreach($viewinfo->bunrui_table as $itm)
                                                 <option value="{{$itm->bid }}">{{$itm->bname }}</option>
-                             <!--                   <option>{{$itm->bname }}</option>  -->
-                                                @endforeach 
-                                            @endif
+                                            @endforeach 
+                                        @endif
                                         </select>
                                     </div>
                                 </div>
