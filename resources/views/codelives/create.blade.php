@@ -30,6 +30,13 @@
             </div>
         </div>
         <div class="form-group">
+            <label for='lines' class="col-lg-2 control-label" for="input">行ハイライト</label>
+            <div class="col-lg-10">
+                <input class="form-control" name="lines" id="lines" rows="1">
+                <a>{{$errors->first('lines')}}</a>
+            </div>
+        </div>        
+        <div class="form-group">
             <div class="col-lg-10 col-lg-offset-2">
                 <a class="btn btn-danger" href="/codelive"><span class="glyphicon glyphicon-remove-circle"></span>　キャンセル</a>
                 <!-- aタグでpostしないようにする -->

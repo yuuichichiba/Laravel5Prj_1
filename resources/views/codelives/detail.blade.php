@@ -33,7 +33,7 @@
             <div class="form-group">
                 <label class="col-lg-2 control-label">ソースコード</label>
                 <div class="col-lg-10">
-                    <div class="codebox"><pre class="line-numbers"><code class="language-{{ $viewinfo->currMark }}">{{ $codelive['src'] }}</code></pre>
+                    <div class="codebox"><pre class="line-numbers"  data-line="{{$codelive['lines']}}"><code class="language-{{ $viewinfo->currMark }}" >{{ $codelive['src'] }}</code></pre>
                     </div>
                 </div>
             </div>

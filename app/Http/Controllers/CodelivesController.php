@@ -141,6 +141,7 @@ class CodelivesController extends Controller {
         $codelive['title'] = $request['title'];
         $codelive['body'] = $request['body'];
         $codelive['src'] = $request['src'];
+        $codelive['lines'] = $request['lines'];
 
         $bunrui = Bunrui::find(session('bunrui_id'));
         $bunrui->codelives()->save($codelive);
@@ -177,8 +178,9 @@ class CodelivesController extends Controller {
         $codelive['title'] = $pr['title'];
         $codelive['body'] = $pr['body'];
         $codelive['src'] = $pr['src'];
+        $codelive['lines'] = $pr['lines'];
         $codelive->save();\Session::flash('flash_message', '１件のサンプルが更新されました');
-        return redirect('/codelive');
+        return redirect('/codelive/'.$id);
     }
     /*---------------------------------------------------------------------------
     *           分類ID変更
