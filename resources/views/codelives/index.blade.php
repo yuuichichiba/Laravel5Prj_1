@@ -65,9 +65,12 @@
     @foreach($codelives as $itm)
         <tr>
             <td>{{ $itm['title'] }}</td>
+            <!--
             <td> <?php mb_strlen($itm['body']) > 120 ? $subs = mb_substr($itm['body'], 0, 120).'...' : $subs = $itm['body'];
                 echo $subs ?></td>
-            <td>{{ $itm['updated_at'] }}</td>
+                -->
+            <td>{{$itm->getBodyentities(120)}}</td>
+            <td>{{ $itm['updat$itmed_at'] }}</td>
             <td>
                 <a class="btn btn-primary " href="/codelive/{{ $itm['id'] }}">
                     <span class="glyphicon glyphicon-folder-open"></span>　詳細</a>
